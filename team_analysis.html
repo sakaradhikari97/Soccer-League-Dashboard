@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Team Performance Analysis</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Team Performance Analysis</h1>
+
+    <!-- Form to select team and season -->
+    <form method="post">
+        <label for="team">Choose a team:</label>
+        <select name="team" id="team">
+            {% for team in teams %}
+                <option value="{{ team }}" {% if team == selected_team %} selected {% endif %}>{{ team }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="season">Choose a season:</label>
+        <select name="season" id="season">
+            {% for season in seasons %}
+                <option value="{{ season }}" {% if season == selected_season %} selected {% endif %}>{{ season }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Analyze Team">
+    </form>
+
+    <!-- Visualization for team analysis -->
+    <div id="radar_chart"></div>
+    <script>
+        var graph_radar = {{ graphJSON_radar | safe }};
+        Plotly.newPlot('radar_chart', graph_radar);
+    </script>
+
+    <!-- Visualization for the relationship between total_pass and goals scored -->
+    <div id="pass_goals_scatter_chart"></div>
+    <script>
+        var graph_pass_goals_scatter = {{ graphJSON_pass_goals_scatter | safe }};
+        Plotly.newPlot('pass_goals_scatter_chart', graph_pass_goals_scatter);
+    </script>
+</body>
+</html>
